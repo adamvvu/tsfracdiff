@@ -1,0 +1,8 @@
+# Required Dependencies
+numpy
+pandas
+arch <= 4.17; python_version == '3.6.*'
+arch; python_version >= '3.7'
+
+# Suggested/Optional
+joblib

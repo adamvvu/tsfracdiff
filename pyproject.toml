@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tsfracdiff"
+version = "1.0.0"
+description = "Efficient and easy to use fractional differentiation transformations for stationarizing time series data."
+authors = [
+    {name = "Adam Wu"},
+    {email = "adamwu1@outlook.com"}
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.6"
+dependencies = [
+    "numpy",
+    "pandas",
+    "arch",
+    "joblib"
+]
+classifiers = [
+    'Intended Audience :: Science/Research',
+	'Topic :: Scientific/Engineering :: Information Analysis',
+	'Programming Language :: Python :: 3 ',
+	'Operating System :: OS Independent',
+	'License :: OSI Approved :: MIT License'
+]
+
+[project.urls]
+homepage = "https://github.com/AdamWLabs/tsfracdiff"
+documentation = "https://github.com/AdamWLabs/tsfracdiff"
+repository = "https://github.com/AdamWLabs/tsfracdiff"

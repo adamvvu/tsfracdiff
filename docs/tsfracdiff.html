@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>tsfracdiff.tsfracdiff API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tsfracdiff.tsfracdiff</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from .unit_root_tests import *
+
+import pandas as pd
+import numpy as np
+
+class FractionalDifferentiator:
+    
+    def __init__(self, maxOrderBound=1, significance=0.01, precision=0.01, 
+                       unitRootTest=&#39;PP&#39;, unitRootTestConfig={}):
+        &#34;&#34;&#34;
+        Provides estimation of the minimum fractional order of differentiation required for stationarity
+        and data transformations.
+        
+        The available stationarity/unit root tests are:
+        -----------------------------------------------
+            - &#39;PP&#39;  : Phillips and Perron (1988) [default]
+            - &#39;ADF&#39; : Augmented Dickey-Fuller (Said &amp; Dickey, 1984)
+
+        Parameters:
+        -----------
+            maxOrderBound       (float) Maximum real-valued order to search in (0, maxOrderBound)
+            significance        (float) Statistical significance level
+            precision           (float) Precision of estimated order
+            unitRootTest        (str)   Unit-root/stationarity tests: [&#39;PP&#39;,&#39;ADF&#39;]
+            unitRootTestConfig  (dict)  Optional keyword arguments to pass to unit root tests
+
+        Attributes:
+        -----------
+            orders              (list)  Estimated minimum orders of differentiation
+
+        Example:
+        --------
+        ```
+            # A pandas.DataFrame/np.array with potentially non-stationary time series
+        df 
+        
+            # Automatic stationary transformation with minimal information loss
+        from tsfracdiff import FractionalDifferentiator
+        fracDiff = FractionalDifferentiator()
+        df = fracDiff.fit_transform(df)
+        ```
+        &#34;&#34;&#34;
+        self.maxOrderBound = maxOrderBound
+        self.significance = significance
+        self.precision = precision
+        
+        # Critical value checks
+        checkCV = False
+        cv_sig = None
+        if (self.significance in [0.01, 0.05, 0.1]):
+            checkCV = True
+            cv_sig = str(int(self.significance * 100)) + &#39;%&#39;
+        
+        # Unit-root/Stationarity tests
+        if unitRootTest == &#39;PP&#39;:
+            self.UnitRootTest = PhillipsPerron(significance=significance, checkCV=checkCV, cv_sig=cv_sig)
+        elif unitRootTest == &#39;ADF&#39;:
+            self.UnitRootTest = ADFuller(significance=significance, checkCV=checkCV, cv_sig=cv_sig)
+        else:
+            raise Exception(&#39;Please specify a valid unit root test.&#39;)
+        self.UnitRootTest.config.update( unitRootTestConfig )
+
+        # States
+        self.isFitted = False
+        self.orders = []
+        self.lagData = None
+        
+    def Fit(self, df, parallel=True):
+        &#34;&#34;&#34;
+        Estimates the minimum orders of differencing required for stationarity.
+        
+        Parameters:
+        -----------
+            df       (pandas.DataFrame/np.array) Raw data
+            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+        &#34;&#34;&#34;
+        df = pd.DataFrame(df).sort_index()
+        
+        # Estimate minimum order of differencing
+        if parallel:
+            try:
+                import multiprocessing
+                from joblib import Parallel, delayed
+                from functools import partial
+            except ImportError:
+                raise Exception(&#39;The module `joblib` is required for parallelization.&#39;)
+
+            def ApplyParallel(df, func, **kwargs):
+                n_jobs = min(df.shape[1], multiprocessing.cpu_count())
+                res = Parallel(n_jobs=n_jobs, prefer=&#39;threads&#39;)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
+                return res
+            orders = ApplyParallel(df, self._MinimumOrderSearch, upperOrder=self.maxOrderBound, first_run=True)
+        else:
+            orders = []
+            for j in range(df.shape[1]):
+                orders.append( self._MinimumOrderSearch(df.iloc[:,j], upperOrder=self.maxOrderBound, first_run=True) )
+        self.orders = orders
+        
+        # Store lagged data for inverse-transformations
+        numLags = [ (len(self._GetMemoryWeights(order)) - 1) for order in self.orders ]
+        self.lagData = [ df.iloc[:,j].head(lag) for j,lag in enumerate(numLags) ]
+        
+        self.isFitted = True
+
+        return
+        
+    def FitTransform(self, df, parallel=True):
+        &#34;&#34;&#34;
+        Estimates the minimum orders and returns a fractionally differentiated dataframe.
+        
+        Parameters
+        ----------
+            df       (pandas.DataFrame/np.array) Raw data
+            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+        &#34;&#34;&#34;
+        if not self.isFitted: 
+            self.Fit(df, parallel=parallel)
+        fracDiffed = self.Transform(df)
+        return fracDiffed
+    
+    def Transform(self, df):
+        &#34;&#34;&#34;
+        Applies a fractional differentiation transformation based on estimated orders.
+
+        Parameters
+        ----------
+            df  (pandas.DataFrame/np.array) Raw data
+        &#34;&#34;&#34;
+        if not self.isFitted: 
+            raise Exception(&#39;Fit the model first.&#39;)
+            
+        df = pd.DataFrame(df).sort_index()
+        fracDiffed = []
+        for j in range(df.shape[1]):
+            x = self._FracDiff(df.iloc[:,j], order=self.orders[j])
+            fracDiffed.append( x )
+        fracDiffed = pd.concat(fracDiffed, axis=1)
+        return fracDiffed
+    
+    def InverseTransform(self, fracDiffed):
+        &#34;&#34;&#34;
+        Inverts the fractional differentiation transformation. 
+        Note that the full dataframe exactly as returned by `.transform()` is required,
+        including any `NaN` padded missing values.
+        
+        Parameters
+        ----------
+            fracDiffed (pandas.DataFrame/np.array) Fractionally differentiated data
+        &#34;&#34;&#34;
+        if not self.isFitted: 
+            raise Exception(&#39;Fit the model first.&#39;)
+        
+        fracDiffed = pd.DataFrame(fracDiffed).sort_index()
+        X = []
+        for j in range(fracDiffed.shape[1]):
+            memoryWeights = self._GetMemoryWeights(self.orders[j])
+            K = len(memoryWeights)
+            
+            # Initial values
+            lagData = self.lagData[j]
+            lag_idx = lagData.index
+            
+            # Differenced values
+            X_tilde = fracDiffed.iloc[:,j].dropna()
+            idx = X_tilde.index
+            
+            # Iteratively invert transformation
+            X_vals = np.ravel(self.lagData[j])
+            X_tilde = np.ravel(X_tilde.values)
+            for t in range(len(X_tilde)):
+                x = -np.sum( memoryWeights[:-1] * X_vals[-(K-1):] ) + X_tilde[t]
+                X_vals = np.append(X_vals, x)
+            idx = np.concatenate( (lag_idx.values, idx.values) )
+            X_vals = pd.Series(X_vals, index=idx)
+            X.append( X_vals )
+        X = pd.concat([ x for x in X ], axis=1)
+        X.columns = fracDiffed.columns
+        return X
+    
+    def _GetMemoryWeights(self, order, memoryThreshold=1e-4):
+        &#34;&#34;&#34;
+        Returns an array of memory weights for each time lag.
+
+        Parameters:
+        -----------
+            order           (float) Order of fracdiff
+            memoryThreshold (float) Minimum magnitude of weight significance
+        &#34;&#34;&#34;
+        memoryWeights = [1,]
+        k = 1
+        while True:
+            weight = -memoryWeights[-1] * ( order - k + 1 ) / k # Iteratively generate next lag weight
+            if abs(weight) &lt; memoryThreshold:
+                break
+            memoryWeights.append(weight)
+            k += 1
+        return np.array(list(reversed(memoryWeights)))
+    
+    def _FracDiff(self, ts, order=1, memoryWeights=None):
+        &#34;&#34;&#34;
+        Differentiates a time series based on a real-valued order.
+
+        Parameters:
+        -----------
+            ts            (pandas.Series) Univariate time series
+            order         (float) Order of differentiation
+            memoryWeights (array) Optional pre-computed weights
+        &#34;&#34;&#34;
+        if memoryWeights is None:
+            memoryWeights = self._GetMemoryWeights(order)
+
+        K = len(memoryWeights)
+        fracDiffedSeries = ts.rolling(K).apply(lambda x: np.sum( x * memoryWeights ), raw=True)
+        fracDiffedSeries = fracDiffedSeries.iloc[(K-1):]
+        
+        return fracDiffedSeries
+    
+    def _MinimumOrderSearch(self, ts, lowerOrder=0, upperOrder=1, first_run=False):
+        &#34;&#34;&#34;
+        Binary search algorithm for estimating the minimum order of differentiation required for stationarity.
+        
+        Parameters
+        ----------
+            ts                   (pandas.Series) Univariate time series
+            lowerOrder           (float) Lower bound on order
+            upperOrder           (float) Upper bound on order
+            first_run            (bool)  For testing endpoints of order bounds
+        &#34;&#34;&#34;  
+        ## Convergence criteria
+        if abs( upperOrder - lowerOrder ) &lt;= self.precision:
+            return upperOrder
+        
+        ## Initial run: Test endpoints
+        if first_run:
+            lowerFracDiff = self._FracDiff(ts, order=lowerOrder).dropna()
+            upperFracDiff = self._FracDiff(ts, order=upperOrder).dropna()
+            
+            # Unit root tests
+            lowerStationary = self.UnitRootTest.IsStationary( lowerFracDiff )
+            upperStationary = self.UnitRootTest.IsStationary( upperFracDiff )
+
+            # Series is I(0)
+            if lowerStationary:
+                return lowerOrder
+            # Series is I(k&gt;&gt;1)
+            if not upperStationary:                                                        
+                print(&#39;Warning: Time series is explosive. Increase upper bounds.&#39;)
+                return upperOrder
+            
+        ## Binary Search: Test midpoint
+        midOrder = ( lowerOrder + upperOrder ) / 2                                      
+        midFracDiff = self._FracDiff(ts, order=midOrder).dropna()
+        midStationary = self.UnitRootTest.IsStationary( midFracDiff )
+        
+        # Series is weakly stationary in [lowerOrder, midOrder]
+        if midStationary:
+            return self._MinimumOrderSearch(ts, lowerOrder=lowerOrder, upperOrder=midOrder)
+        # Series is weakly stationary in [midOrder, upperOrder]
+        else:
+            return self._MinimumOrderSearch(ts, lowerOrder=midOrder, upperOrder=upperOrder)
+        </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tsfracdiff.tsfracdiff.FractionalDifferentiator"><code class="flex name class">
+<span>class <span class="ident">FractionalDifferentiator</span></span>
+<span>(</span><span>maxOrderBound=1, significance=0.01, precision=0.01, unitRootTest='PP', unitRootTestConfig={})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Provides estimation of the minimum fractional order of differentiation required for stationarity
+and data transformations.</p>
+<h2 id="the-available-stationarityunit-root-tests-are">The available stationarity/unit root tests are:</h2>
+<pre><code>- 'PP'  : Phillips and Perron (1988) [default]
+- 'ADF' : Augmented Dickey-Fuller (Said &amp; Dickey, 1984)
+</code></pre>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>maxOrderBound       (float) Maximum real-valued order to search in (0, maxOrderBound)
+significance        (float) Statistical significance level
+precision           (float) Precision of estimated order
+unitRootTest        (str)   Unit-root/stationarity tests: ['PP','ADF']
+unitRootTestConfig  (dict)  Optional keyword arguments to pass to unit root tests
+</code></pre>
+<h2 id="attributes">Attributes:</h2>
+<pre><code>orders              (list)  Estimated minimum orders of differentiation
+</code></pre>
+<h2 id="example">Example:</h2>
+<pre><code>    # A pandas.DataFrame/np.array with potentially non-stationary time series
+df 
+
+    # Automatic stationary transformation with minimal information loss
+from tsfracdiff import FractionalDifferentiator
+fracDiff = FractionalDifferentiator()
+df = fracDiff.fit_transform(df)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FractionalDifferentiator:
+    
+    def __init__(self, maxOrderBound=1, significance=0.01, precision=0.01, 
+                       unitRootTest=&#39;PP&#39;, unitRootTestConfig={}):
+        &#34;&#34;&#34;
+        Provides estimation of the minimum fractional order of differentiation required for stationarity
+        and data transformations.
+        
+        The available stationarity/unit root tests are:
+        -----------------------------------------------
+            - &#39;PP&#39;  : Phillips and Perron (1988) [default]
+            - &#39;ADF&#39; : Augmented Dickey-Fuller (Said &amp; Dickey, 1984)
+
+        Parameters:
+        -----------
+            maxOrderBound       (float) Maximum real-valued order to search in (0, maxOrderBound)
+            significance        (float) Statistical significance level
+            precision           (float) Precision of estimated order
+            unitRootTest        (str)   Unit-root/stationarity tests: [&#39;PP&#39;,&#39;ADF&#39;]
+            unitRootTestConfig  (dict)  Optional keyword arguments to pass to unit root tests
+
+        Attributes:
+        -----------
+            orders              (list)  Estimated minimum orders of differentiation
+
+        Example:
+        --------
+        ```
+            # A pandas.DataFrame/np.array with potentially non-stationary time series
+        df 
+        
+            # Automatic stationary transformation with minimal information loss
+        from tsfracdiff import FractionalDifferentiator
+        fracDiff = FractionalDifferentiator()
+        df = fracDiff.fit_transform(df)
+        ```
+        &#34;&#34;&#34;
+        self.maxOrderBound = maxOrderBound
+        self.significance = significance
+        self.precision = precision
+        
+        # Critical value checks
+        checkCV = False
+        cv_sig = None
+        if (self.significance in [0.01, 0.05, 0.1]):
+            checkCV = True
+            cv_sig = str(int(self.significance * 100)) + &#39;%&#39;
+        
+        # Unit-root/Stationarity tests
+        if unitRootTest == &#39;PP&#39;:
+            self.UnitRootTest = PhillipsPerron(significance=significance, checkCV=checkCV, cv_sig=cv_sig)
+        elif unitRootTest == &#39;ADF&#39;:
+            self.UnitRootTest = ADFuller(significance=significance, checkCV=checkCV, cv_sig=cv_sig)
+        else:
+            raise Exception(&#39;Please specify a valid unit root test.&#39;)
+        self.UnitRootTest.config.update( unitRootTestConfig )
+
+        # States
+        self.isFitted = False
+        self.orders = []
+        self.lagData = None
+        
+    def Fit(self, df, parallel=True):
+        &#34;&#34;&#34;
+        Estimates the minimum orders of differencing required for stationarity.
+        
+        Parameters:
+        -----------
+            df       (pandas.DataFrame/np.array) Raw data
+            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+        &#34;&#34;&#34;
+        df = pd.DataFrame(df).sort_index()
+        
+        # Estimate minimum order of differencing
+        if parallel:
+            try:
+                import multiprocessing
+                from joblib import Parallel, delayed
+                from functools import partial
+            except ImportError:
+                raise Exception(&#39;The module `joblib` is required for parallelization.&#39;)
+
+            def ApplyParallel(df, func, **kwargs):
+                n_jobs = min(df.shape[1], multiprocessing.cpu_count())
+                res = Parallel(n_jobs=n_jobs, prefer=&#39;threads&#39;)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
+                return res
+            orders = ApplyParallel(df, self._MinimumOrderSearch, upperOrder=self.maxOrderBound, first_run=True)
+        else:
+            orders = []
+            for j in range(df.shape[1]):
+                orders.append( self._MinimumOrderSearch(df.iloc[:,j], upperOrder=self.maxOrderBound, first_run=True) )
+        self.orders = orders
+        
+        # Store lagged data for inverse-transformations
+        numLags = [ (len(self._GetMemoryWeights(order)) - 1) for order in self.orders ]
+        self.lagData = [ df.iloc[:,j].head(lag) for j,lag in enumerate(numLags) ]
+        
+        self.isFitted = True
+
+        return
+        
+    def FitTransform(self, df, parallel=True):
+        &#34;&#34;&#34;
+        Estimates the minimum orders and returns a fractionally differentiated dataframe.
+        
+        Parameters
+        ----------
+            df       (pandas.DataFrame/np.array) Raw data
+            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+        &#34;&#34;&#34;
+        if not self.isFitted: 
+            self.Fit(df, parallel=parallel)
+        fracDiffed = self.Transform(df)
+        return fracDiffed
+    
+    def Transform(self, df):
+        &#34;&#34;&#34;
+        Applies a fractional differentiation transformation based on estimated orders.
+
+        Parameters
+        ----------
+            df  (pandas.DataFrame/np.array) Raw data
+        &#34;&#34;&#34;
+        if not self.isFitted: 
+            raise Exception(&#39;Fit the model first.&#39;)
+            
+        df = pd.DataFrame(df).sort_index()
+        fracDiffed = []
+        for j in range(df.shape[1]):
+            x = self._FracDiff(df.iloc[:,j], order=self.orders[j])
+            fracDiffed.append( x )
+        fracDiffed = pd.concat(fracDiffed, axis=1)
+        return fracDiffed
+    
+    def InverseTransform(self, fracDiffed):
+        &#34;&#34;&#34;
+        Inverts the fractional differentiation transformation. 
+        Note that the full dataframe exactly as returned by `.transform()` is required,
+        including any `NaN` padded missing values.
+        
+        Parameters
+        ----------
+            fracDiffed (pandas.DataFrame/np.array) Fractionally differentiated data
+        &#34;&#34;&#34;
+        if not self.isFitted: 
+            raise Exception(&#39;Fit the model first.&#39;)
+        
+        fracDiffed = pd.DataFrame(fracDiffed).sort_index()
+        X = []
+        for j in range(fracDiffed.shape[1]):
+            memoryWeights = self._GetMemoryWeights(self.orders[j])
+            K = len(memoryWeights)
+            
+            # Initial values
+            lagData = self.lagData[j]
+            lag_idx = lagData.index
+            
+            # Differenced values
+            X_tilde = fracDiffed.iloc[:,j].dropna()
+            idx = X_tilde.index
+            
+            # Iteratively invert transformation
+            X_vals = np.ravel(self.lagData[j])
+            X_tilde = np.ravel(X_tilde.values)
+            for t in range(len(X_tilde)):
+                x = -np.sum( memoryWeights[:-1] * X_vals[-(K-1):] ) + X_tilde[t]
+                X_vals = np.append(X_vals, x)
+            idx = np.concatenate( (lag_idx.values, idx.values) )
+            X_vals = pd.Series(X_vals, index=idx)
+            X.append( X_vals )
+        X = pd.concat([ x for x in X ], axis=1)
+        X.columns = fracDiffed.columns
+        return X
+    
+    def _GetMemoryWeights(self, order, memoryThreshold=1e-4):
+        &#34;&#34;&#34;
+        Returns an array of memory weights for each time lag.
+
+        Parameters:
+        -----------
+            order           (float) Order of fracdiff
+            memoryThreshold (float) Minimum magnitude of weight significance
+        &#34;&#34;&#34;
+        memoryWeights = [1,]
+        k = 1
+        while True:
+            weight = -memoryWeights[-1] * ( order - k + 1 ) / k # Iteratively generate next lag weight
+            if abs(weight) &lt; memoryThreshold:
+                break
+            memoryWeights.append(weight)
+            k += 1
+        return np.array(list(reversed(memoryWeights)))
+    
+    def _FracDiff(self, ts, order=1, memoryWeights=None):
+        &#34;&#34;&#34;
+        Differentiates a time series based on a real-valued order.
+
+        Parameters:
+        -----------
+            ts            (pandas.Series) Univariate time series
+            order         (float) Order of differentiation
+            memoryWeights (array) Optional pre-computed weights
+        &#34;&#34;&#34;
+        if memoryWeights is None:
+            memoryWeights = self._GetMemoryWeights(order)
+
+        K = len(memoryWeights)
+        fracDiffedSeries = ts.rolling(K).apply(lambda x: np.sum( x * memoryWeights ), raw=True)
+        fracDiffedSeries = fracDiffedSeries.iloc[(K-1):]
+        
+        return fracDiffedSeries
+    
+    def _MinimumOrderSearch(self, ts, lowerOrder=0, upperOrder=1, first_run=False):
+        &#34;&#34;&#34;
+        Binary search algorithm for estimating the minimum order of differentiation required for stationarity.
+        
+        Parameters
+        ----------
+            ts                   (pandas.Series) Univariate time series
+            lowerOrder           (float) Lower bound on order
+            upperOrder           (float) Upper bound on order
+            first_run            (bool)  For testing endpoints of order bounds
+        &#34;&#34;&#34;  
+        ## Convergence criteria
+        if abs( upperOrder - lowerOrder ) &lt;= self.precision:
+            return upperOrder
+        
+        ## Initial run: Test endpoints
+        if first_run:
+            lowerFracDiff = self._FracDiff(ts, order=lowerOrder).dropna()
+            upperFracDiff = self._FracDiff(ts, order=upperOrder).dropna()
+            
+            # Unit root tests
+            lowerStationary = self.UnitRootTest.IsStationary( lowerFracDiff )
+            upperStationary = self.UnitRootTest.IsStationary( upperFracDiff )
+
+            # Series is I(0)
+            if lowerStationary:
+                return lowerOrder
+            # Series is I(k&gt;&gt;1)
+            if not upperStationary:                                                        
+                print(&#39;Warning: Time series is explosive. Increase upper bounds.&#39;)
+                return upperOrder
+            
+        ## Binary Search: Test midpoint
+        midOrder = ( lowerOrder + upperOrder ) / 2                                      
+        midFracDiff = self._FracDiff(ts, order=midOrder).dropna()
+        midStationary = self.UnitRootTest.IsStationary( midFracDiff )
+        
+        # Series is weakly stationary in [lowerOrder, midOrder]
+        if midStationary:
+            return self._MinimumOrderSearch(ts, lowerOrder=lowerOrder, upperOrder=midOrder)
+        # Series is weakly stationary in [midOrder, upperOrder]
+        else:
+            return self._MinimumOrderSearch(ts, lowerOrder=midOrder, upperOrder=upperOrder)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="tsfracdiff.tsfracdiff.FractionalDifferentiator.Fit"><code class="name flex">
+<span>def <span class="ident">Fit</span></span>(<span>self, df, parallel=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Estimates the minimum orders of differencing required for stationarity.</p>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>df       (pandas.DataFrame/np.array) Raw data
+parallel (bool) Use multithreading if true (default). Requires &lt;code&gt;joblib&lt;/code&gt;.
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Fit(self, df, parallel=True):
+    &#34;&#34;&#34;
+    Estimates the minimum orders of differencing required for stationarity.
+    
+    Parameters:
+    -----------
+        df       (pandas.DataFrame/np.array) Raw data
+        parallel (bool) Use multithreading if true (default). Requires `joblib`.
+    &#34;&#34;&#34;
+    df = pd.DataFrame(df).sort_index()
+    
+    # Estimate minimum order of differencing
+    if parallel:
+        try:
+            import multiprocessing
+            from joblib import Parallel, delayed
+            from functools import partial
+        except ImportError:
+            raise Exception(&#39;The module `joblib` is required for parallelization.&#39;)
+
+        def ApplyParallel(df, func, **kwargs):
+            n_jobs = min(df.shape[1], multiprocessing.cpu_count())
+            res = Parallel(n_jobs=n_jobs, prefer=&#39;threads&#39;)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
+            return res
+        orders = ApplyParallel(df, self._MinimumOrderSearch, upperOrder=self.maxOrderBound, first_run=True)
+    else:
+        orders = []
+        for j in range(df.shape[1]):
+            orders.append( self._MinimumOrderSearch(df.iloc[:,j], upperOrder=self.maxOrderBound, first_run=True) )
+    self.orders = orders
+    
+    # Store lagged data for inverse-transformations
+    numLags = [ (len(self._GetMemoryWeights(order)) - 1) for order in self.orders ]
+    self.lagData = [ df.iloc[:,j].head(lag) for j,lag in enumerate(numLags) ]
+    
+    self.isFitted = True
+
+    return</code></pre>
+</details>
+</dd>
+<dt id="tsfracdiff.tsfracdiff.FractionalDifferentiator.FitTransform"><code class="name flex">
+<span>def <span class="ident">FitTransform</span></span>(<span>self, df, parallel=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Estimates the minimum orders and returns a fractionally differentiated dataframe.</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>df       (pandas.DataFrame/np.array) Raw data
+parallel (bool) Use multithreading if true (default). Requires &lt;code&gt;joblib&lt;/code&gt;.
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def FitTransform(self, df, parallel=True):
+    &#34;&#34;&#34;
+    Estimates the minimum orders and returns a fractionally differentiated dataframe.
+    
+    Parameters
+    ----------
+        df       (pandas.DataFrame/np.array) Raw data
+        parallel (bool) Use multithreading if true (default). Requires `joblib`.
+    &#34;&#34;&#34;
+    if not self.isFitted: 
+        self.Fit(df, parallel=parallel)
+    fracDiffed = self.Transform(df)
+    return fracDiffed</code></pre>
+</details>
+</dd>
+<dt id="tsfracdiff.tsfracdiff.FractionalDifferentiator.InverseTransform"><code class="name flex">
+<span>def <span class="ident">InverseTransform</span></span>(<span>self, fracDiffed)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Inverts the fractional differentiation transformation.
+Note that the full dataframe exactly as returned by <code>.transform()</code> is required,
+including any <code>NaN</code> padded missing values.</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>fracDiffed (pandas.DataFrame/np.array) Fractionally differentiated data
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def InverseTransform(self, fracDiffed):
+    &#34;&#34;&#34;
+    Inverts the fractional differentiation transformation. 
+    Note that the full dataframe exactly as returned by `.transform()` is required,
+    including any `NaN` padded missing values.
+    
+    Parameters
+    ----------
+        fracDiffed (pandas.DataFrame/np.array) Fractionally differentiated data
+    &#34;&#34;&#34;
+    if not self.isFitted: 
+        raise Exception(&#39;Fit the model first.&#39;)
+    
+    fracDiffed = pd.DataFrame(fracDiffed).sort_index()
+    X = []
+    for j in range(fracDiffed.shape[1]):
+        memoryWeights = self._GetMemoryWeights(self.orders[j])
+        K = len(memoryWeights)
+        
+        # Initial values
+        lagData = self.lagData[j]
+        lag_idx = lagData.index
+        
+        # Differenced values
+        X_tilde = fracDiffed.iloc[:,j].dropna()
+        idx = X_tilde.index
+        
+        # Iteratively invert transformation
+        X_vals = np.ravel(self.lagData[j])
+        X_tilde = np.ravel(X_tilde.values)
+        for t in range(len(X_tilde)):
+            x = -np.sum( memoryWeights[:-1] * X_vals[-(K-1):] ) + X_tilde[t]
+            X_vals = np.append(X_vals, x)
+        idx = np.concatenate( (lag_idx.values, idx.values) )
+        X_vals = pd.Series(X_vals, index=idx)
+        X.append( X_vals )
+    X = pd.concat([ x for x in X ], axis=1)
+    X.columns = fracDiffed.columns
+    return X</code></pre>
+</details>
+</dd>
+<dt id="tsfracdiff.tsfracdiff.FractionalDifferentiator.Transform"><code class="name flex">
+<span>def <span class="ident">Transform</span></span>(<span>self, df)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Applies a fractional differentiation transformation based on estimated orders.</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>df  (pandas.DataFrame/np.array) Raw data
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Transform(self, df):
+    &#34;&#34;&#34;
+    Applies a fractional differentiation transformation based on estimated orders.
+
+    Parameters
+    ----------
+        df  (pandas.DataFrame/np.array) Raw data
+    &#34;&#34;&#34;
+    if not self.isFitted: 
+        raise Exception(&#39;Fit the model first.&#39;)
+        
+    df = pd.DataFrame(df).sort_index()
+    fracDiffed = []
+    for j in range(df.shape[1]):
+        x = self._FracDiff(df.iloc[:,j], order=self.orders[j])
+        fracDiffed.append( x )
+    fracDiffed = pd.concat(fracDiffed, axis=1)
+    return fracDiffed</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tsfracdiff" href="index.html">tsfracdiff</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tsfracdiff.tsfracdiff.FractionalDifferentiator" href="#tsfracdiff.tsfracdiff.FractionalDifferentiator">FractionalDifferentiator</a></code></h4>
+<ul class="">
+<li><code><a title="tsfracdiff.tsfracdiff.FractionalDifferentiator.Fit" href="#tsfracdiff.tsfracdiff.FractionalDifferentiator.Fit">Fit</a></code></li>
+<li><code><a title="tsfracdiff.tsfracdiff.FractionalDifferentiator.FitTransform" href="#tsfracdiff.tsfracdiff.FractionalDifferentiator.FitTransform">FitTransform</a></code></li>
+<li><code><a title="tsfracdiff.tsfracdiff.FractionalDifferentiator.InverseTransform" href="#tsfracdiff.tsfracdiff.FractionalDifferentiator.InverseTransform">InverseTransform</a></code></li>
+<li><code><a title="tsfracdiff.tsfracdiff.FractionalDifferentiator.Transform" href="#tsfracdiff.tsfracdiff.FractionalDifferentiator.Transform">Transform</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

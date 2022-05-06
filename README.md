@@ -25,6 +25,8 @@ transformation for financial machine learning applications. This library
 is an extension of their ideas, with some modifications for efficiency
 and robustness.
 
+[Documentation](https://adamwlabs.github.io/tsfracdiff/docs/)
+
 ## Getting Started
 
 ### Installation
@@ -54,10 +56,8 @@ fracDiff = FractionalDifferentiator()
 df = fracDiff.FitTransform(df)
 ```
 
-### Documentation/Examples
-
-For a more in-depth example, see the notebook in `/examples`. See
-`/docs` for documentation.
+For a more in-depth example, see this
+[notebook](https://adamwlabs.github.io/tsfracdiff/examples/Example.html).
 
 ## References
 

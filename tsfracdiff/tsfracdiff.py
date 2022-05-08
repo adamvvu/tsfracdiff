@@ -37,7 +37,7 @@ class FractionalDifferentiator:
 	    # Automatic stationary transformation with minimal information loss
         from tsfracdiff import FractionalDifferentiator
         fracDiff = FractionalDifferentiator()
-        df = fracDiff.fit_transform(df)
+        df = fracDiff.FitTransform(df)
         ```
         """
         self.maxOrderBound = maxOrderBound
@@ -72,7 +72,7 @@ class FractionalDifferentiator:
         Parameters:
         -----------
             df       (pandas.DataFrame/np.array) Raw data
-            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+            parallel (bool) Use multiprocessing if true (default). Requires `joblib`.
         """
         df = pd.DataFrame(df).sort_index()
         
@@ -87,7 +87,7 @@ class FractionalDifferentiator:
 
             def ApplyParallel(df, func, **kwargs):
                 n_jobs = min(df.shape[1], multiprocessing.cpu_count())
-                res = Parallel(n_jobs=n_jobs, prefer='threads')( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
+                res = Parallel(n_jobs=n_jobs)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
                 return res
             orders = ApplyParallel(df, self._MinimumOrderSearch, upperOrder=self.maxOrderBound, first_run=True)
         else:
@@ -111,7 +111,7 @@ class FractionalDifferentiator:
         Parameters
         ----------
             df       (pandas.DataFrame/np.array) Raw data
-            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+            parallel (bool) Use multiprocessing if true (default). Requires `joblib`.
         """
         if not self.isFitted: 
             self.Fit(df, parallel=parallel)

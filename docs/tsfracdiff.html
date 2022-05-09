@@ -65,7 +65,7 @@ class FractionalDifferentiator:
             # Automatic stationary transformation with minimal information loss
         from tsfracdiff import FractionalDifferentiator
         fracDiff = FractionalDifferentiator()
-        df = fracDiff.fit_transform(df)
+        df = fracDiff.FitTransform(df)
         ```
         &#34;&#34;&#34;
         self.maxOrderBound = maxOrderBound
@@ -100,7 +100,7 @@ class FractionalDifferentiator:
         Parameters:
         -----------
             df       (pandas.DataFrame/np.array) Raw data
-            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+            parallel (bool) Use multiprocessing if true (default). Requires `joblib`.
         &#34;&#34;&#34;
         df = pd.DataFrame(df).sort_index()
         
@@ -115,7 +115,7 @@ class FractionalDifferentiator:
 
             def ApplyParallel(df, func, **kwargs):
                 n_jobs = min(df.shape[1], multiprocessing.cpu_count())
-                res = Parallel(n_jobs=n_jobs, prefer=&#39;threads&#39;)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
+                res = Parallel(n_jobs=n_jobs)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
                 return res
             orders = ApplyParallel(df, self._MinimumOrderSearch, upperOrder=self.maxOrderBound, first_run=True)
         else:
@@ -139,7 +139,7 @@ class FractionalDifferentiator:
         Parameters
         ----------
             df       (pandas.DataFrame/np.array) Raw data
-            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+            parallel (bool) Use multiprocessing if true (default). Requires `joblib`.
         &#34;&#34;&#34;
         if not self.isFitted: 
             self.Fit(df, parallel=parallel)
@@ -326,7 +326,7 @@ df
     # Automatic stationary transformation with minimal information loss
 from tsfracdiff import FractionalDifferentiator
 fracDiff = FractionalDifferentiator()
-df = fracDiff.fit_transform(df)
+df = fracDiff.FitTransform(df)
 </code></pre></div>
 <details class="source">
 <summary>
@@ -366,7 +366,7 @@ df = fracDiff.fit_transform(df)
             # Automatic stationary transformation with minimal information loss
         from tsfracdiff import FractionalDifferentiator
         fracDiff = FractionalDifferentiator()
-        df = fracDiff.fit_transform(df)
+        df = fracDiff.FitTransform(df)
         ```
         &#34;&#34;&#34;
         self.maxOrderBound = maxOrderBound
@@ -401,7 +401,7 @@ df = fracDiff.fit_transform(df)
         Parameters:
         -----------
             df       (pandas.DataFrame/np.array) Raw data
-            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+            parallel (bool) Use multiprocessing if true (default). Requires `joblib`.
         &#34;&#34;&#34;
         df = pd.DataFrame(df).sort_index()
         
@@ -416,7 +416,7 @@ df = fracDiff.fit_transform(df)
 
             def ApplyParallel(df, func, **kwargs):
                 n_jobs = min(df.shape[1], multiprocessing.cpu_count())
-                res = Parallel(n_jobs=n_jobs, prefer=&#39;threads&#39;)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
+                res = Parallel(n_jobs=n_jobs)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
                 return res
             orders = ApplyParallel(df, self._MinimumOrderSearch, upperOrder=self.maxOrderBound, first_run=True)
         else:
@@ -440,7 +440,7 @@ df = fracDiff.fit_transform(df)
         Parameters
         ----------
             df       (pandas.DataFrame/np.array) Raw data
-            parallel (bool) Use multithreading if true (default). Requires `joblib`.
+            parallel (bool) Use multiprocessing if true (default). Requires `joblib`.
         &#34;&#34;&#34;
         if not self.isFitted: 
             self.Fit(df, parallel=parallel)
@@ -597,7 +597,7 @@ df = fracDiff.fit_transform(df)
 <div class="desc"><p>Estimates the minimum orders of differencing required for stationarity.</p>
 <h2 id="parameters">Parameters:</h2>
 <pre><code>df       (pandas.DataFrame/np.array) Raw data
-parallel (bool) Use multithreading if true (default). Requires &lt;code&gt;joblib&lt;/code&gt;.
+parallel (bool) Use multiprocessing if true (default). Requires &lt;code&gt;joblib&lt;/code&gt;.
 </code></pre></div>
 <details class="source">
 <summary>
@@ -610,7 +610,7 @@ parallel (bool) Use multithreading if true (default). Requires &lt;code&gt;jobli
     Parameters:
     -----------
         df       (pandas.DataFrame/np.array) Raw data
-        parallel (bool) Use multithreading if true (default). Requires `joblib`.
+        parallel (bool) Use multiprocessing if true (default). Requires `joblib`.
     &#34;&#34;&#34;
     df = pd.DataFrame(df).sort_index()
     
@@ -625,7 +625,7 @@ parallel (bool) Use multithreading if true (default). Requires &lt;code&gt;jobli
 
         def ApplyParallel(df, func, **kwargs):
             n_jobs = min(df.shape[1], multiprocessing.cpu_count())
-            res = Parallel(n_jobs=n_jobs, prefer=&#39;threads&#39;)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
+            res = Parallel(n_jobs=n_jobs)( delayed(partial(func, **kwargs))(x) for x in np.array_split(df, df.shape[1], axis=1) )
             return res
         orders = ApplyParallel(df, self._MinimumOrderSearch, upperOrder=self.maxOrderBound, first_run=True)
     else:
@@ -650,7 +650,7 @@ parallel (bool) Use multithreading if true (default). Requires &lt;code&gt;jobli
 <div class="desc"><p>Estimates the minimum orders and returns a fractionally differentiated dataframe.</p>
 <h2 id="parameters">Parameters</h2>
 <pre><code>df       (pandas.DataFrame/np.array) Raw data
-parallel (bool) Use multithreading if true (default). Requires &lt;code&gt;joblib&lt;/code&gt;.
+parallel (bool) Use multiprocessing if true (default). Requires &lt;code&gt;joblib&lt;/code&gt;.
 </code></pre></div>
 <details class="source">
 <summary>
@@ -663,7 +663,7 @@ parallel (bool) Use multithreading if true (default). Requires &lt;code&gt;jobli
     Parameters
     ----------
         df       (pandas.DataFrame/np.array) Raw data
-        parallel (bool) Use multithreading if true (default). Requires `joblib`.
+        parallel (bool) Use multiprocessing if true (default). Requires `joblib`.
     &#34;&#34;&#34;
     if not self.isFitted: 
         self.Fit(df, parallel=parallel)

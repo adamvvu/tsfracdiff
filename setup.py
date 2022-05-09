@@ -3,12 +3,20 @@ from codecs import open
 from os import path
 
 currPath = path.abspath(path.dirname(__file__))
+
+# Parse README
 with open(path.join(currPath, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+# Parse version
+with open(path.join(currPath, 'tsfracdiff', '__init__.py')) as f:
+    for line in f:
+        if line.startswith('__version__'):
+            version = line.split('"')[1]
+
 setup(
     name='tsfracdiff',
-    version='1.0.0',
+    version=version,
     description='Efficient and easy to use fractional differentiation transformations for stationarizing time series data.',
     long_description=long_description,
     long_description_content_type='text/markdown',

@@ -67,6 +67,3 @@ def test_RunAllTests():
         _TestInvTransform( df, unitRootTest=unitRootTest )
 
     return
-
-if __name__ == '__main__':
-    RunAllTests()

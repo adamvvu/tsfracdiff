@@ -4,7 +4,6 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tsfracdiff"
-version = "1.0.0"
 description = "Efficient and easy to use fractional differentiation transformations for stationarizing time series data."
 authors = [
     {name = "Adam Wu"},

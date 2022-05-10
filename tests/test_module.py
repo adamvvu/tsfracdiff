@@ -11,7 +11,7 @@ def _GenerateData():
     
     df = [ np.array([1 for k in range(K)]) ]
     mu = np.random.normal(0, 0.25, size=(K))
-    for t in range(T):
+    for t in range(T-1):
         d_t = mu + df[-1] + np.random.normal(0, 1, size=(K))
         df.append( d_t )
     df = pd.DataFrame(np.vstack(df))
@@ -51,7 +51,7 @@ def _TestInvTransform( df, unitRootTest ):
     """
     fracDiff = FractionalDifferentiator(unitRootTest=unitRootTest)
     df_frac = fracDiff.FitTransform( df )
-    df_inv = fracDiff.InverseTransform( df_frac )
+    df_inv = fracDiff.InverseTransform( df_frac, lagData=df.head(max(fracDiff.numLags)) )
     assert np.allclose(df.values, df_inv.values, equal_nan=True)
     print('InvTransform: OK')
     return

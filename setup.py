@@ -16,8 +16,8 @@ with open(path.join(currPath, 'tsfracdiff', '__init__.py')) as f:
 
 setup(
     name='tsfracdiff',
-    version=version,
     description='Efficient and easy to use fractional differentiation transformations for stationarizing time series data.',
+    version=version,
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/AdamWLabs/tsfracdiff',

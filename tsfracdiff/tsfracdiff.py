@@ -8,8 +8,8 @@ class FractionalDifferentiator:
     def __init__(self, maxOrderBound=1, significance=0.01, precision=0.01, 
                        unitRootTest='PP', unitRootTestConfig={}):
         """
-        Provides estimation of the minimum fractional order of differentiation required for stationarity
-        and data transformations.
+        Provides estimation of the real-valued order of integration and provides fractional 
+        differentiation data transformations.
         
         The available stationarity/unit root tests are:
         -----------------------------------------------
@@ -27,18 +27,17 @@ class FractionalDifferentiator:
         Attributes:
         -----------
             orders              (list)  Estimated minimum orders of differentiation
+            numLags             (list)  Number of lags required for transformations
 
         Example:
         --------
-        ```
-	    # A pandas.DataFrame/np.array with potentially non-stationary time series
-        df 
+	        # A pandas.DataFrame/np.array with potentially non-stationary time series
+            df 
 	
-	    # Automatic stationary transformation with minimal information loss
-        from tsfracdiff import FractionalDifferentiator
-        fracDiff = FractionalDifferentiator()
-        df = fracDiff.FitTransform(df)
-        ```
+	        # Automatic stationary transformation with minimal information loss
+            from tsfracdiff import FractionalDifferentiator
+            fracDiff = FractionalDifferentiator()
+            df = fracDiff.FitTransform(df)
         """
         self.maxOrderBound = maxOrderBound
         self.significance = significance
@@ -63,18 +62,18 @@ class FractionalDifferentiator:
         # States
         self.isFitted = False
         self.orders = []
-        self.lagData = None
+        self.numLags = None
         
     def Fit(self, df, parallel=True):
         """
-        Estimates the minimum orders of differencing required for stationarity.
+        Estimates the fractional order of integration.
         
         Parameters:
         -----------
             df       (pandas.DataFrame/np.array) Raw data
             parallel (bool) Use multiprocessing if true (default). Requires `joblib`.
         """
-        df = pd.DataFrame(df).sort_index()
+        df = pd.DataFrame(df)
         
         # Estimate minimum order of differencing
         if parallel:
@@ -95,19 +94,15 @@ class FractionalDifferentiator:
             for j in range(df.shape[1]):
                 orders.append( self._MinimumOrderSearch(df.iloc[:,j], upperOrder=self.maxOrderBound, first_run=True) )
         self.orders = orders
-        
-        # Store lagged data for inverse-transformations
-        numLags = [ (len(self._GetMemoryWeights(order)) - 1) for order in self.orders ]
-        self.lagData = [ df.iloc[:,j].head(lag) for j,lag in enumerate(numLags) ]
-        
+        self.numLags = [ (len(self._GetMemoryWeights(order)) - 1) for order in self.orders ]
         self.isFitted = True
 
         return
         
     def FitTransform(self, df, parallel=True):
         """
-        Estimates the minimum orders and returns a fractionally differentiated dataframe.
-        
+        Estimates the fractional order of integration and returns a stationarized dataframe.
+
         Parameters
         ----------
             df       (pandas.DataFrame/np.array) Raw data
@@ -116,6 +111,7 @@ class FractionalDifferentiator:
         if not self.isFitted: 
             self.Fit(df, parallel=parallel)
         fracDiffed = self.Transform(df)
+
         return fracDiffed
     
     def Transform(self, df):
@@ -129,54 +125,92 @@ class FractionalDifferentiator:
         if not self.isFitted: 
             raise Exception('Fit the model first.')
             
-        df = pd.DataFrame(df).sort_index()
+        df = pd.DataFrame(df)
         fracDiffed = []
         for j in range(df.shape[1]):
             x = self._FracDiff(df.iloc[:,j], order=self.orders[j])
             fracDiffed.append( x )
-        fracDiffed = pd.concat(fracDiffed, axis=1)
+        fracDiffed = pd.concat(fracDiffed, axis=1).sort_index()
+
         return fracDiffed
     
-    def InverseTransform(self, fracDiffed):
+    def InverseTransform(self, fracDiffed, lagData):
         """
-        Inverts the fractional differentiation transformation. 
-        Note that the full dataframe exactly as returned by `.transform()` is required,
-        including any `NaN` padded missing values.
+        Applies a fractional integration transformation by inverting the fractional differentiation. 
+
+        Note: The previous `K` values of the original time series are required to invert the transformation.
+        For multi-variate time series, `K` will likely vary across columns and you may find `K` with the
+        attribute `.numLags`. 
         
         Parameters
         ----------
             fracDiffed (pandas.DataFrame/np.array) Fractionally differentiated data
+            lagData    (pandas.DataFrame/np.array) Previous values of time series. See note.
+
+        Example
+        -------
+            # Multi-variate Time Series/DataFrame
+            X                                           # Shape (1000, 2)
+
+            # Stationarize
+            fracDiff = FractionalDifferentiator()
+            X_stationary = fracDiff.FitTransform( X )   # Shape (967, 2)
+
+            # Estimated orders
+            orders = fracDiff.orders                    # [0.5703, 0.9141]
+
+            # Required lagged values
+            numLags = fracDiff.numLags                  # [155, 33]
+            lagData = X.head(max(numLags))
+
+            # Fractionally integrate by passing in the first 155 values
+            X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recovers the original X
         """
         if not self.isFitted: 
             raise Exception('Fit the model first.')
+
+        maxLags, minLags = max(self.numLags), min(self.numLags)
+        lagData = pd.DataFrame(lagData)
+        if lagData.shape[0] != maxLags:
+            raise Exception(f'The previous {maxLags} values are required.')
         
-        fracDiffed = pd.DataFrame(fracDiffed).sort_index()
+        fracDiffed = pd.DataFrame(fracDiffed)
         X = []
         for j in range(fracDiffed.shape[1]):
             memoryWeights = self._GetMemoryWeights(self.orders[j])
-            K = len(memoryWeights)
-            
+            K = self.numLags[j]
+            offset = K - minLags
+
             # Initial values
-            lagData = self.lagData[j]
-            lag_idx = lagData.index
+            tsLagData = lagData.iloc[:K, j]
             
-            # Differenced values
-            X_tilde = fracDiffed.iloc[:,j].dropna()
-            idx = X_tilde.index
+            # Transformed values
+            X_tilde = fracDiffed.iloc[offset:, j]
+
+            # Already stationary: identity transform
+            if K == 0:
+                X.append( X_tilde )
+                continue
             
             # Iteratively invert transformation
-            X_vals = np.ravel(self.lagData[j])
+            X_vals = np.ravel(tsLagData.values)
             X_tilde = np.ravel(X_tilde.values)
             for t in range(len(X_tilde)):
-                x = -np.sum( memoryWeights[:-1] * X_vals[-(K-1):] ) + X_tilde[t]
+                x = X_tilde[t] - np.sum( memoryWeights[:-1] * X_vals[-K:] )
                 X_vals = np.append(X_vals, x)
-            idx = np.concatenate( (lag_idx.values, idx.values) )
-            X_vals = pd.Series(X_vals, index=idx)
+            X_vals = pd.Series(X_vals)
             X.append( X_vals )
-        X = pd.concat([ x for x in X ], axis=1)
+        X = pd.concat(X, axis=1).sort_index()
         X.columns = fracDiffed.columns
+
+        # Check for duplicate indices
+        idx = lagData.index[:minLags].union( fracDiffed.index )
+        if len(idx) != X.shape[0]:
+            idx = [ t for t in range(X.shape[0]) ]
+        X.index = idx
+
         return X
-    
+
     def _GetMemoryWeights(self, order, memoryThreshold=1e-4):
         """
         Returns an array of memory weights for each time lag.

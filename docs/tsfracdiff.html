@@ -211,14 +211,19 @@ class FractionalDifferentiator:
             memoryWeights = self._GetMemoryWeights(self.orders[j])
             K = len(memoryWeights) - 1
             offset = K - minLags
-            
+
             # Initial values
             tsLagData = lagData.iloc[:K, j]
             lag_idx = tsLagData.index
             
-            # Differenced values
+            # Transformed values
             X_tilde = fracDiffed.iloc[offset:,j]
             idx = X_tilde.index
+
+            # Already stationary: identity transform
+            if K == 0:
+                X.append( X_tilde )
+                continue
             
             # Iteratively invert transformation
             X_vals = np.ravel(tsLagData.values)
@@ -544,14 +549,19 @@ df = fracDiff.FitTransform(df)
             memoryWeights = self._GetMemoryWeights(self.orders[j])
             K = len(memoryWeights) - 1
             offset = K - minLags
-            
+
             # Initial values
             tsLagData = lagData.iloc[:K, j]
             lag_idx = tsLagData.index
             
-            # Differenced values
+            # Transformed values
             X_tilde = fracDiffed.iloc[offset:,j]
             idx = X_tilde.index
+
+            # Already stationary: identity transform
+            if K == 0:
+                X.append( X_tilde )
+                continue
             
             # Iteratively invert transformation
             X_vals = np.ravel(tsLagData.values)
@@ -811,14 +821,19 @@ X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recove
         memoryWeights = self._GetMemoryWeights(self.orders[j])
         K = len(memoryWeights) - 1
         offset = K - minLags
-        
+
         # Initial values
         tsLagData = lagData.iloc[:K, j]
         lag_idx = tsLagData.index
         
-        # Differenced values
+        # Transformed values
         X_tilde = fracDiffed.iloc[offset:,j]
         idx = X_tilde.index
+
+        # Already stationary: identity transform
+        if K == 0:
+            X.append( X_tilde )
+            continue
         
         # Iteratively invert transformation
         X_vals = np.ravel(tsLagData.values)

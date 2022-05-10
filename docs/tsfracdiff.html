@@ -59,7 +59,6 @@ class FractionalDifferentiator:
 
         Example:
         --------
-            ```
                 # A pandas.DataFrame/np.array with potentially non-stationary time series
             df 
         
@@ -67,8 +66,6 @@ class FractionalDifferentiator:
             from tsfracdiff import FractionalDifferentiator
             fracDiff = FractionalDifferentiator()
             df = fracDiff.FitTransform(df)
-            ```
-        ```
         &#34;&#34;&#34;
         self.maxOrderBound = maxOrderBound
         self.significance = significance
@@ -142,6 +139,7 @@ class FractionalDifferentiator:
         if not self.isFitted: 
             self.Fit(df, parallel=parallel)
         fracDiffed = self.Transform(df)
+
         return fracDiffed
     
     def Transform(self, df):
@@ -160,7 +158,8 @@ class FractionalDifferentiator:
         for j in range(df.shape[1]):
             x = self._FracDiff(df.iloc[:,j], order=self.orders[j])
             fracDiffed.append( x )
-        fracDiffed = pd.concat(fracDiffed, axis=1)
+        fracDiffed = pd.concat(fracDiffed, axis=1).sort_index()
+
         return fracDiffed
     
     def InverseTransform(self, fracDiffed, lagData):
@@ -178,7 +177,6 @@ class FractionalDifferentiator:
 
         Example
         -------
-            ```
             # Multi-variate Time Series/DataFrame
             X                                           # Shape (1000, 2)
 
@@ -195,30 +193,27 @@ class FractionalDifferentiator:
 
             # Fractionally integrate by passing in the first 155 values
             X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recovers the original X
-            ```
         &#34;&#34;&#34;
         if not self.isFitted: 
             raise Exception(&#39;Fit the model first.&#39;)
 
         maxLags, minLags = max(self.numLags), min(self.numLags)
+        lagData = pd.DataFrame(lagData)
         if lagData.shape[0] != maxLags:
             raise Exception(f&#39;The previous {maxLags} values are required.&#39;)
-        lagData = pd.DataFrame(lagData)
         
         fracDiffed = pd.DataFrame(fracDiffed)
         X = []
         for j in range(fracDiffed.shape[1]):
             memoryWeights = self._GetMemoryWeights(self.orders[j])
-            K = len(memoryWeights) - 1
+            K = self.numLags[j]
             offset = K - minLags
 
             # Initial values
             tsLagData = lagData.iloc[:K, j]
-            lag_idx = tsLagData.index
             
             # Transformed values
-            X_tilde = fracDiffed.iloc[offset:,j]
-            idx = X_tilde.index
+            X_tilde = fracDiffed.iloc[offset:, j]
 
             # Already stationary: identity transform
             if K == 0:
@@ -231,11 +226,17 @@ class FractionalDifferentiator:
             for t in range(len(X_tilde)):
                 x = X_tilde[t] - np.sum( memoryWeights[:-1] * X_vals[-K:] )
                 X_vals = np.append(X_vals, x)
-            idx = np.concatenate( (lag_idx.values, idx.values) )
-            X_vals = pd.Series(X_vals, index=idx)
+            X_vals = pd.Series(X_vals)
             X.append( X_vals )
-        X = pd.concat(X, axis=1)
+        X = pd.concat(X, axis=1).sort_index()
         X.columns = fracDiffed.columns
+
+        # Check for duplicate indices
+        idx = lagData.index[:minLags].union( fracDiffed.index )
+        if len(idx) != X.shape[0]:
+            idx = [ t for t in range(X.shape[0]) ]
+        X.index = idx
+
         return X
 
     def _GetMemoryWeights(self, order, memoryThreshold=1e-4):
@@ -354,17 +355,14 @@ unitRootTestConfig  (dict)  Optional keyword arguments to pass to unit root test
 numLags             (list)  Number of lags required for transformations
 </code></pre>
 <h2 id="example">Example:</h2>
-<pre><code>```
-    # A pandas.DataFrame/np.array with potentially non-stationary time series
+<pre><code>    # A pandas.DataFrame/np.array with potentially non-stationary time series
 df
 
     # Automatic stationary transformation with minimal information loss
 from tsfracdiff import FractionalDifferentiator
 fracDiff = FractionalDifferentiator()
 df = fracDiff.FitTransform(df)
-```
-</code></pre>
-<p>```</p></div>
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -397,7 +395,6 @@ df = fracDiff.FitTransform(df)
 
         Example:
         --------
-            ```
                 # A pandas.DataFrame/np.array with potentially non-stationary time series
             df 
         
@@ -405,8 +402,6 @@ df = fracDiff.FitTransform(df)
             from tsfracdiff import FractionalDifferentiator
             fracDiff = FractionalDifferentiator()
             df = fracDiff.FitTransform(df)
-            ```
-        ```
         &#34;&#34;&#34;
         self.maxOrderBound = maxOrderBound
         self.significance = significance
@@ -480,6 +475,7 @@ df = fracDiff.FitTransform(df)
         if not self.isFitted: 
             self.Fit(df, parallel=parallel)
         fracDiffed = self.Transform(df)
+
         return fracDiffed
     
     def Transform(self, df):
@@ -498,7 +494,8 @@ df = fracDiff.FitTransform(df)
         for j in range(df.shape[1]):
             x = self._FracDiff(df.iloc[:,j], order=self.orders[j])
             fracDiffed.append( x )
-        fracDiffed = pd.concat(fracDiffed, axis=1)
+        fracDiffed = pd.concat(fracDiffed, axis=1).sort_index()
+
         return fracDiffed
     
     def InverseTransform(self, fracDiffed, lagData):
@@ -516,7 +513,6 @@ df = fracDiff.FitTransform(df)
 
         Example
         -------
-            ```
             # Multi-variate Time Series/DataFrame
             X                                           # Shape (1000, 2)
 
@@ -533,30 +529,27 @@ df = fracDiff.FitTransform(df)
 
             # Fractionally integrate by passing in the first 155 values
             X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recovers the original X
-            ```
         &#34;&#34;&#34;
         if not self.isFitted: 
             raise Exception(&#39;Fit the model first.&#39;)
 
         maxLags, minLags = max(self.numLags), min(self.numLags)
+        lagData = pd.DataFrame(lagData)
         if lagData.shape[0] != maxLags:
             raise Exception(f&#39;The previous {maxLags} values are required.&#39;)
-        lagData = pd.DataFrame(lagData)
         
         fracDiffed = pd.DataFrame(fracDiffed)
         X = []
         for j in range(fracDiffed.shape[1]):
             memoryWeights = self._GetMemoryWeights(self.orders[j])
-            K = len(memoryWeights) - 1
+            K = self.numLags[j]
             offset = K - minLags
 
             # Initial values
             tsLagData = lagData.iloc[:K, j]
-            lag_idx = tsLagData.index
             
             # Transformed values
-            X_tilde = fracDiffed.iloc[offset:,j]
-            idx = X_tilde.index
+            X_tilde = fracDiffed.iloc[offset:, j]
 
             # Already stationary: identity transform
             if K == 0:
@@ -569,11 +562,17 @@ df = fracDiff.FitTransform(df)
             for t in range(len(X_tilde)):
                 x = X_tilde[t] - np.sum( memoryWeights[:-1] * X_vals[-K:] )
                 X_vals = np.append(X_vals, x)
-            idx = np.concatenate( (lag_idx.values, idx.values) )
-            X_vals = pd.Series(X_vals, index=idx)
+            X_vals = pd.Series(X_vals)
             X.append( X_vals )
-        X = pd.concat(X, axis=1)
+        X = pd.concat(X, axis=1).sort_index()
         X.columns = fracDiffed.columns
+
+        # Check for duplicate indices
+        idx = lagData.index[:minLags].union( fracDiffed.index )
+        if len(idx) != X.shape[0]:
+            idx = [ t for t in range(X.shape[0]) ]
+        X.index = idx
+
         return X
 
     def _GetMemoryWeights(self, order, memoryThreshold=1e-4):
@@ -734,6 +733,7 @@ parallel (bool) Use multiprocessing if true (default). Requires &lt;code&gt;jobl
     if not self.isFitted: 
         self.Fit(df, parallel=parallel)
     fracDiffed = self.Transform(df)
+
     return fracDiffed</code></pre>
 </details>
 </dd>
@@ -750,8 +750,7 @@ attribute <code>.numLags</code>. </p>
 lagData    (pandas.DataFrame/np.array) Previous values of time series. See note.
 </code></pre>
 <h2 id="example">Example</h2>
-<pre><code>```
-# Multi-variate Time Series/DataFrame
+<pre><code># Multi-variate Time Series/DataFrame
 X                                           # Shape (1000, 2)
 
 # Stationarize
@@ -767,7 +766,6 @@ lagData = X.head(max(numLags))
 
 # Fractionally integrate by passing in the first 155 values
 X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recovers the original X
-```
 </code></pre></div>
 <details class="source">
 <summary>
@@ -788,7 +786,6 @@ X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recove
 
     Example
     -------
-        ```
         # Multi-variate Time Series/DataFrame
         X                                           # Shape (1000, 2)
 
@@ -805,30 +802,27 @@ X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recove
 
         # Fractionally integrate by passing in the first 155 values
         X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recovers the original X
-        ```
     &#34;&#34;&#34;
     if not self.isFitted: 
         raise Exception(&#39;Fit the model first.&#39;)
 
     maxLags, minLags = max(self.numLags), min(self.numLags)
+    lagData = pd.DataFrame(lagData)
     if lagData.shape[0] != maxLags:
         raise Exception(f&#39;The previous {maxLags} values are required.&#39;)
-    lagData = pd.DataFrame(lagData)
     
     fracDiffed = pd.DataFrame(fracDiffed)
     X = []
     for j in range(fracDiffed.shape[1]):
         memoryWeights = self._GetMemoryWeights(self.orders[j])
-        K = len(memoryWeights) - 1
+        K = self.numLags[j]
         offset = K - minLags
 
         # Initial values
         tsLagData = lagData.iloc[:K, j]
-        lag_idx = tsLagData.index
         
         # Transformed values
-        X_tilde = fracDiffed.iloc[offset:,j]
-        idx = X_tilde.index
+        X_tilde = fracDiffed.iloc[offset:, j]
 
         # Already stationary: identity transform
         if K == 0:
@@ -841,11 +835,17 @@ X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recove
         for t in range(len(X_tilde)):
             x = X_tilde[t] - np.sum( memoryWeights[:-1] * X_vals[-K:] )
             X_vals = np.append(X_vals, x)
-        idx = np.concatenate( (lag_idx.values, idx.values) )
-        X_vals = pd.Series(X_vals, index=idx)
+        X_vals = pd.Series(X_vals)
         X.append( X_vals )
-    X = pd.concat(X, axis=1)
+    X = pd.concat(X, axis=1).sort_index()
     X.columns = fracDiffed.columns
+
+    # Check for duplicate indices
+    idx = lagData.index[:minLags].union( fracDiffed.index )
+    if len(idx) != X.shape[0]:
+        idx = [ t for t in range(X.shape[0]) ]
+    X.index = idx
+
     return X</code></pre>
 </details>
 </dd>
@@ -877,7 +877,8 @@ X_reconstructed = fracDiff.InverseTransform( X_stationary, lagData )    # Recove
     for j in range(df.shape[1]):
         x = self._FracDiff(df.iloc[:,j], order=self.orders[j])
         fracDiffed.append( x )
-    fracDiffed = pd.concat(fracDiffed, axis=1)
+    fracDiffed = pd.concat(fracDiffed, axis=1).sort_index()
+
     return fracDiffed</code></pre>
 </details>
 </dd>

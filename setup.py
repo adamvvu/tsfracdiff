@@ -20,7 +20,7 @@ setup(
     version=version,
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/AdamWLabs/tsfracdiff',
+    url='https://github.com/adamvvu/tsfracdiff',
     author='Adam Wu',
     author_email='adamwu1@outlook.com',
     packages=['tsfracdiff'],

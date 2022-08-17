@@ -31,6 +31,6 @@ dynamic = [ "version" ]
 version = {attr = "tsfracdiff.__version__"}
 
 [project.urls]
-homepage = "https://github.com/AdamWLabs/tsfracdiff"
-documentation = "https://github.com/AdamWLabs/tsfracdiff"
-repository = "https://github.com/AdamWLabs/tsfracdiff"
+homepage = "https://github.com/adamvvu/tsfracdiff"
+documentation = "https://github.com/adamvvu/tsfracdiff"
+repository = "https://github.com/adamvvu/tsfracdiff"

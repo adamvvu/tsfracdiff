@@ -1,7 +1,7 @@
-[![Build](https://img.shields.io/github/workflow/status/AdamWLabs/tsfracdiff/Unit%20Tests?style=for-the-badge)](https://github.com/AdamWLabs/tsfracdiff/actions/workflows/tsfracdiff_tests.yml)
+[![Build](https://img.shields.io/github/workflow/status/adamvvu/tsfracdiff/Unit%20Tests?style=for-the-badge)](https://github.com/adamvvu/tsfracdiff/actions/workflows/tsfracdiff_tests.yml)
 [![PyPi](https://img.shields.io/pypi/v/tsfracdiff?style=for-the-badge)](https://pypi.org/project/tsfracdiff/)
 [![Downloads](https://img.shields.io/pypi/dm/tsfracdiff?style=for-the-badge)](https://pypi.org/project/tsfracdiff/)
-[![License](https://img.shields.io/pypi/l/tsfracdiff?style=for-the-badge)](https://github.com/AdamWLabs/tsfracdiff/blob/master/LICENSE)
+[![License](https://img.shields.io/pypi/l/tsfracdiff?style=for-the-badge)](https://github.com/adamvvu/tsfracdiff/blob/master/LICENSE)
 
 Efficient and easy to use fractional differentiation transformations for
 stationarizing time series data in Python.
@@ -24,7 +24,7 @@ transformation for financial machine learning applications. This library
 is an extension of their ideas, with some modifications for efficiency
 and robustness.
 
-[Documentation](https://adamwlabs.github.io/tsfracdiff/docs/)
+[Documentation](https://adamvvu.github.io/tsfracdiff/docs/)
 
 ## Getting Started
 
@@ -56,7 +56,7 @@ df = fracDiff.FitTransform(df)
 ```
 
 For a more in-depth example, see this
-[notebook](https://adamwlabs.github.io/tsfracdiff/examples/Example.html).
+[notebook](https://adamvvu.github.io/tsfracdiff/examples/Example.html).
 
 ## References
 

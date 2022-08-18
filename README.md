@@ -1,7 +1,7 @@
 [![Build](https://img.shields.io/github/workflow/status/adamvvu/tsfracdiff/Unit%20Tests?style=for-the-badge)](https://github.com/adamvvu/tsfracdiff/actions/workflows/tsfracdiff_tests.yml)
 [![PyPi](https://img.shields.io/pypi/v/tsfracdiff?style=for-the-badge)](https://pypi.org/project/tsfracdiff/)
 [![Downloads](https://img.shields.io/pypi/dm/tsfracdiff?style=for-the-badge)](https://pypi.org/project/tsfracdiff/)
-[![License](https://img.shields.io/pypi/l/tsfracdiff?style=for-the-badge)](https://github.com/adamvvu/tsfracdiff/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](https://github.com/adamvvu/tsfracdiff/blob/master/LICENSE)
 
 Efficient and easy to use fractional differentiation transformations for
 stationarizing time series data in Python.

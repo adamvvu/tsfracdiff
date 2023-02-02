@@ -1,4 +1,4 @@
-[![Build](https://img.shields.io/github/workflow/status/adamvvu/tsfracdiff/Unit%20Tests?style=for-the-badge)](https://github.com/adamvvu/tsfracdiff/actions/workflows/tsfracdiff_tests.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/adamvvu/tsfracdiff/tsfracdiff_tests.yml?style=for-the-badge)](https://github.com/adamvvu/tsfracdiff/actions/workflows/tsfracdiff_tests.yml)
 [![PyPi](https://img.shields.io/pypi/v/tsfracdiff?style=for-the-badge)](https://pypi.org/project/tsfracdiff/)
 [![Downloads](https://img.shields.io/pypi/dm/tsfracdiff?style=for-the-badge)](https://pypi.org/project/tsfracdiff/)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](https://github.com/adamvvu/tsfracdiff/blob/master/LICENSE)

@@ -35,10 +35,10 @@ and robustness.
 #### Dependencies:
 
     # Required
-    python3 # Python 3.6+
+    python3 # Python 3.7+
     numpy
     pandas
-    arch    # If on Python 3.6, use arch <= v4.17
+    arch
 
     # Suggested
     joblib

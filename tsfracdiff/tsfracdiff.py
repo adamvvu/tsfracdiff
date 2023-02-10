@@ -5,7 +5,7 @@ import numpy as np
 
 class FractionalDifferentiator:
     
-    def __init__(self, maxOrderBound=1, significance=0.01, precision=0.01, 
+    def __init__(self, maxOrderBound=1, significance=0.01, precision=0.01, memoryThreshold=1e-4,
                        unitRootTest='PP', unitRootTestConfig={}):
         """
         Provides estimation of the real-valued order of integration and provides fractional 
@@ -21,6 +21,7 @@ class FractionalDifferentiator:
             maxOrderBound       (float) Maximum real-valued order to search in (0, maxOrderBound)
             significance        (float) Statistical significance level
             precision           (float) Precision of estimated order
+            memoryThreshold     (float) Minimum magnitude of weight significance
             unitRootTest        (str)   Unit-root/stationarity tests: ['PP','ADF']
             unitRootTestConfig  (dict)  Optional keyword arguments to pass to unit root tests
 
@@ -42,6 +43,7 @@ class FractionalDifferentiator:
         self.maxOrderBound = maxOrderBound
         self.significance = significance
         self.precision = precision
+        self.memoryThreshold = memoryThreshold
         
         # Critical value checks
         checkCV = False
@@ -94,7 +96,7 @@ class FractionalDifferentiator:
             for j in range(df.shape[1]):
                 orders.append( self._MinimumOrderSearch(df.iloc[:,j], upperOrder=self.maxOrderBound, first_run=True) )
         self.orders = orders
-        self.numLags = [ (len(self._GetMemoryWeights(order)) - 1) for order in self.orders ]
+        self.numLags = [ (len(self._GetMemoryWeights(order, memoryThreshold=self.memoryThreshold)) - 1) for order in self.orders ]
         self.isFitted = True
 
         return
@@ -177,7 +179,7 @@ class FractionalDifferentiator:
         fracDiffed = pd.DataFrame(fracDiffed)
         X = []
         for j in range(fracDiffed.shape[1]):
-            memoryWeights = self._GetMemoryWeights(self.orders[j])
+            memoryWeights = self._GetMemoryWeights(self.orders[j], memoryThreshold=self.memoryThreshold)
             K = self.numLags[j]
             offset = K - minLags
 
@@ -241,7 +243,7 @@ class FractionalDifferentiator:
             memoryWeights (array) Optional pre-computed weights
         """
         if memoryWeights is None:
-            memoryWeights = self._GetMemoryWeights(order)
+            memoryWeights = self._GetMemoryWeights(order, memoryThreshold=self.memoryThreshold)
 
         K = len(memoryWeights)
         fracDiffedSeries = ts.rolling(K).apply(lambda x: np.sum( x * memoryWeights ), raw=True)
